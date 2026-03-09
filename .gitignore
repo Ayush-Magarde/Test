@@ -1,0 +1,17 @@
+# Maven
+target/
+
+# Local compilation output (javac -d out)
+out/
+
+# IDEs
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+
+# OS
+Thumbs.db
+Desktop.ini
+
