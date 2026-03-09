@@ -1,25 +1,24 @@
 package com.addressbook;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 public class AddressBook {
-    private ContactPerson contact;
+    private final List<ContactPerson> contacts = new ArrayList<>();
 
-    public ContactPerson getContact() {
-        return contact;
+    public List<ContactPerson> getContacts() {
+        return Collections.unmodifiableList(contacts);
     }
 
     public void addContact(ContactPerson contact) {
-        this.contact = contact;
+        contacts.add(contact);
     }
 
     public boolean editContact(String firstName, String lastName, Scanner scanner) {
+        ContactPerson contact = findContact(firstName, lastName);
         if (contact == null) {
-            System.out.println("No contact exists in address book.");
-            return false;
-        }
-
-        if (!matchesName(contact, firstName, lastName)) {
             System.out.println("Contact not found.");
             return false;
         }
@@ -38,19 +37,21 @@ public class AddressBook {
     }
 
     public boolean deleteContact(String firstName, String lastName) {
-        if (contact == null) {
-            System.out.println("No contact exists in address book.");
-            return false;
-        }
-
-        if (!matchesName(contact, firstName, lastName)) {
+        boolean removed = contacts.removeIf(c -> matchesName(c, firstName, lastName));
+        if (!removed) {
             System.out.println("Contact not found.");
             return false;
         }
 
-        contact = null;
         System.out.println("Contact deleted successfully.");
         return true;
+    }
+
+    private ContactPerson findContact(String firstName, String lastName) {
+        return contacts.stream()
+                .filter(c -> matchesName(c, firstName, lastName))
+                .findFirst()
+                .orElse(null);
     }
 
     private static boolean matchesName(ContactPerson contact, String firstName, String lastName) {
