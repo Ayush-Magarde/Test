@@ -31,6 +31,17 @@ public class AddressBookMain {
             addressBook.addContact(contact);
             System.out.println("Contact added successfully.");
             System.out.println(addressBook.getContact());
+
+            String editChoice = promptYesNo(scanner, "Do you want to edit a contact? (yes/no): ");
+            if (editChoice.equalsIgnoreCase("yes")) {
+                String searchFirstName = promptNonEmpty(scanner, "Enter First Name to edit: ");
+                String searchLastName = promptNonEmpty(scanner, "Enter Last Name to edit: ");
+                boolean updated = addressBook.editContact(searchFirstName, searchLastName, scanner);
+                if (updated) {
+                    System.out.println("Updated contact:");
+                    System.out.println(addressBook.getContact());
+                }
+            }
         }
     }
 
@@ -42,6 +53,22 @@ public class AddressBookMain {
                 return value.trim();
             }
             System.out.println("Input cannot be empty. Please try again.");
+        }
+    }
+
+    private static String promptYesNo(Scanner scanner, String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String value = scanner.nextLine();
+            if (value == null) {
+                System.out.println("Please enter yes or no.");
+                continue;
+            }
+            String trimmed = value.trim();
+            if (trimmed.equalsIgnoreCase("yes") || trimmed.equalsIgnoreCase("no")) {
+                return trimmed;
+            }
+            System.out.println("Please enter yes or no.");
         }
     }
 }
