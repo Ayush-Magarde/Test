@@ -42,6 +42,17 @@ public class AddressBookMain {
                     System.out.println(addressBook.getContact());
                 }
             }
+
+            String deleteChoice = promptYesNo(scanner, "Do you want to delete a contact? (yes/no): ");
+            if (deleteChoice.equalsIgnoreCase("yes")) {
+                String searchFirstName = promptNonEmpty(scanner, "Enter First Name to delete: ");
+                String searchLastName = promptNonEmpty(scanner, "Enter Last Name to delete: ");
+                boolean deleted = addressBook.deleteContact(searchFirstName, searchLastName);
+                if (deleted) {
+                    System.out.println("Address book after deletion:");
+                    System.out.println(addressBook.getContact() == null ? "No contacts." : addressBook.getContact());
+                }
+            }
         }
     }
 
