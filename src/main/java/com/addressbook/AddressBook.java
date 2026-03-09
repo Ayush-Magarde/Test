@@ -37,8 +37,20 @@ public class AddressBook {
         return true;
     }
 
-    public boolean editContact(String firstName, String lastName) {
-        return editContact(firstName, lastName, new Scanner(System.in));
+    public boolean deleteContact(String firstName, String lastName) {
+        if (contact == null) {
+            System.out.println("No contact exists in address book.");
+            return false;
+        }
+
+        if (!matchesName(contact, firstName, lastName)) {
+            System.out.println("Contact not found.");
+            return false;
+        }
+
+        contact = null;
+        System.out.println("Contact deleted successfully.");
+        return true;
     }
 
     private static boolean matchesName(ContactPerson contact, String firstName, String lastName) {
